@@ -34,12 +34,12 @@ return new class extends Migration
                 'main_group_name' => 'Desa Timur 2',
             ],
             [
-                'name' => 'Gunung Sari',
-                'main_group_name' => 'Desa Timur 1',
+                'name' => 'Pucangsawit 2',
+                'main_group_name' => 'Desa Timur 2',
             ],
             [
-                'name' => 'Kapohan',
-                'main_group_name' => 'Desa Timur 1',
+                'name' => 'Pucangsawit Indah',
+                'main_group_name' => 'Desa Timur 2',
             ]
         ]);
     }
