@@ -16,6 +16,14 @@ class Event extends Model
         return $this->belongsTo(Classroom::class);
     }
 
+    public function staff()
+    {
+        return $this->belongsToMany(Staff::class, 'event_staff')
+                ->using(EventStaff::class)
+                ->withPivot('status')
+                ->withTimestamps();
+    }
+
     public function students()
     {
         // Access students through reports

@@ -1,71 +1,94 @@
 <x-filament-panels::page>
-    <div class="mb-6">
-        <div class="rounded-xl shadow p-6 dark:bg-gray-800" >
-            <h2 class="text-xl font-bold mb-3">Event Information</h2>
+    {{-- Filament will automatically render header widgets (like EventStaffTable) here or at the top by default --}}
+
+    <div class="space-y-6">
+        {{-- Event Information Section --}}
+        <x-filament::section>
+            <x-slot name="heading">Event Information</x-slot>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
-                    <div class="mb-4">
-                        <span class="font-medium ">Event Name:</span>
-                        <span class="ml-2">{{ $event->name }}</span>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <span class="font-medium">Date:</span>
-                        <span class="ml-2">{{ \Carbon\Carbon::parse($event->date)->format('d F Y') }}</span>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <span class="font-medium">Classroom:</span>
-                        <span class="ml-2">{{ $event->classroom->name ?? 'N/A' }}</span>
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-base font-medium text-gray-500">Date</h3>
+                            <p class="mt-1 text-lg font-medium">{{ \Carbon\Carbon::parse($event->date)->format('d F Y') }}</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-base font-medium text-gray-500">Class</h3>
+                            <p class="mt-1 text-lg font-medium">{{ $event->classroom ? $event->classroom->name : 'Not assigned' }}</p>
+                        </div>
                     </div>
                 </div>
                 
                 <div>
-                    <div class="mb-4">
-                        <span class="font-medium">Description:</span>
-                        <p class="mt-1">{{ $event->description }}</p>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <span class="font-medium">Total Students:</span>
-                        <span class="ml-2">{{ $attendanceStats['total'] }}</span>
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-base font-medium text-gray-500">Description</h3>
+                            <p class="mt-1 text-lg font-medium">{{ $event->description ?: 'No description' }}</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-base font-medium text-gray-500">Created At</h3>
+                            <p class="mt-1 text-lg font-medium">{{ $event->created_at->format('d F Y H:i') }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <div class="mb-6">
-        <div class="rounded-xl shadow p-6 dark:bg-gray-800">
-            <h2 class="text-xl font-bold mb-4">Attendance Statistics</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-                    <h3 class="font-medium">Present (Hadir)</h3>
-                    <div class="mt-2 text-2xl font-bold ">{{ $attendanceStats['hadir']['count'] }}</div>
-                    <div class="text-sm">{{ $attendanceStats['hadir']['percentage'] }}% of students</div>
-                </div>
-                
-                <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                    <h3 class="font-medium text-yellow-800">Excused (Izin)</h3>
-                    <div class="mt-2 text-2xl font-bold text-yellow-600">{{ $attendanceStats['izin']['count'] }}</div>
-                    <div class="text-sm text-yellow-700">{{ $attendanceStats['izin']['percentage'] }}% of students</div>
-                </div>
-                
-                <div class="bg-red-50 p-4 rounded-lg border border-red-200">
-                    <h3 class="font-medium text-red-800">Absent (Alfa)</h3>
-                    <div class="mt-2 text-2xl font-bold text-red-600">{{ $attendanceStats['alfa']['count'] }}</div>
-                    <div class="text-sm text-red-700">{{ $attendanceStats['alfa']['percentage'] }}% of students</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div>
-        <h2 class="text-xl font-bold">Attendance List</h2>
-    </div>
+        </x-filament::section>
 
-    {{ $this->table }}
+        {{-- Attendance Statistics --}}
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
+            <x-filament::card>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">Total Students</h3>
+                        <p class="text-3xl font-bold text-primary-600">{{ $attendanceStats['total'] }}</p>
+                    </div>
+                </div>
+            </x-filament::card>
 
+            <x-filament::card>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">Hadir</h3>
+                        <p class="text-3xl font-bold text-success-600">{{ $attendanceStats['hadir']['count'] }}</p>
+                        <p class="text-sm text-gray-500">{{ $attendanceStats['hadir']['percentage'] }}%</p>
+                    </div>
+                </div>
+            </x-filament::card>
+
+            <x-filament::card>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">Izin</h3>
+                        <p class="text-3xl font-bold text-warning-600">{{ $attendanceStats['izin']['count'] }}</p>
+                        <p class="text-sm text-gray-500">{{ $attendanceStats['izin']['percentage'] }}%</p>
+                    </div>
+                </div>
+            </x-filament::card>
+
+            <x-filament::card>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">Alfa</h3>
+                        <p class="text-3xl font-bold text-danger-600">{{ $attendanceStats['alfa']['count'] }}</p>
+                        <p class="text-sm text-gray-500">{{ $attendanceStats['alfa']['percentage'] }}%</p>
+                    </div>
+                </div>
+            </x-filament::card>
+        </div>
+
+        {{-- Staff Table Widget - Directly include the widget --}}
+        @livewire(\App\Filament\Widgets\EventStaffTable::class, ['eventId' => $event->id])
+
+        {{-- Student Attendance Table --}}
+        <x-filament::section>
+            <x-slot name="heading">
+                Student Attendance
+            </x-slot>
+            {{-- This renders the table defined in EventDetail.php's table() method --}}
+            {{ $this->table }}
+        </x-filament::section>
+    </div>
 </x-filament-panels::page>

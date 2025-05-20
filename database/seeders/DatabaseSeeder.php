@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Group;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Staff;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,15 +23,10 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('fathinif2012'),
         ]);
 
-        // Create some groups first
-        if (Group::count() === 0) {
-            Group::create(['name' => 'Petoran']);
-            Group::create(['name' => 'Pucangsawit 1']);
-            Group::create(['name' => 'Sekarpace']);
-        }
-
         $this->call([
             ClassroomAndStudentSeeder::class,
         ]);
+
+        Staff::factory(20)->create();
     }
 }

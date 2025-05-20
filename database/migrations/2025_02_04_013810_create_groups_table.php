@@ -26,11 +26,19 @@ return new class extends Migration
                 'main_group_name' => 'Desa Timur 2',
             ],
             [
-                'name' => 'Pucangsawit 1',
+                'name' => 'Sekarpace',
                 'main_group_name' => 'Desa Timur 2',
             ],
             [
-                'name' => 'Sekarpace',
+                'name' => 'Ngoresan',
+                'main_group_name' => 'Desa Timur 2',
+            ],
+            [
+                'name' => 'Ngasinan',
+                'main_group_name' => 'Desa Timur 2',
+            ],
+            [
+                'name' => 'Pucangsawit 1',
                 'main_group_name' => 'Desa Timur 2',
             ],
             [

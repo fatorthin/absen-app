@@ -41,15 +41,12 @@ class EventResource extends Resource
                     ->relationship('classroom', 'name')
                     ->required()
                     ->reactive(),
-                
-                Section::make('Auto-attendance setup')
-                    ->description('Students will be automatically added from the selected classroom.')
-                    ->schema([
-                        Placeholder::make('auto_attendance_info')
-                            ->content('When you create this event, all students from the selected classroom will be automatically added to the attendance report with a default status of "ALFA" (absent).')
-                            ->extraAttributes(['class' => 'text-primary-600 font-medium']),
-                    ])
-                    ->collapsed(false),
+                Select::make('staff')
+                    ->relationship('staff', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->required()
+                    ->reactive(),
             ]);
     }
 
