@@ -23,6 +23,7 @@ use DesignTheBox\BarcodeField\Forms\Components\BarcodeInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class EventDetail extends Page implements HasTable
 {
@@ -183,33 +184,16 @@ class EventDetail extends Page implements HasTable
                     })->modalWidth(MaxWidth::Medium),
                 Action::make('scanQrCode')
                     ->label('Scan QR Code')
-                    // ->icon('heroicon-o-qrcode')
-                    // ->action(fn(Report $record) => $record->advance())
-                    ->form([
-                        TextInput::make('qrcode')
-                            ->label('Student ID')
-                            ->id('qrcode')
-                            ->reactive()
-                            ->afterStateUpdated(function ($state, callable $set) {
-                                $set('student_id', $state);
-                            }),
-                        // TextInput::make('student_id')
-                        //     ->label('Student ID')
-                        //     ->hidden(),
-                        // ->readOnly(),
-                    ])->action(function (array $data): void {
-                        dd($data);
-                        $record = Report::where('student_id', $data['student_id'])->where('event_id', $this->event->id)->first();
-                        if ($record) {
-                            $record->status = 'hadir';
-                            $record->save();
-                            $this->calculateAttendanceStats();
-                        }
-                    })
-                    ->modalContent(view('filament.resources.event-resource.pages.qr-code-scan'))
-                    // ->modalSubmitAction(false)
-                    ->modalWidth(MaxWidth::Medium),
+                    ->icon('heroicon-o-qr-code')
+                    ->action(function (): void {
+                        // Open the scanner in a new window - no event_id needed anymore
+                        $url = route('qrcode.scanner');
+                        
+                        // The JS to open the new window will be handled by Filament
+                        $this->js("window.open('{$url}', 'qrScanner', 'width=800,height=700')");
+                    }),
             ])
-            ->paginated(false);
+            ->paginated(false)
+            ->poll('1s');
     }
 }

@@ -2,14 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\ReportController;
-
-//storage-link
-Route::get('/storage-link', function () {
-    Artisan::call('storage:link');
-    return 'Storage link created successfully';
-});
+use App\Http\Controllers\QrCodeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,3 +21,7 @@ Route::post('/update_report', function (Request $request) {
 
     return back()->with('masuk', 'masuk');
 });
+
+// Add QR code scanner routes
+Route::get('/qrcode/scanner', [QrCodeController::class, 'scanner'])->name('qrcode.scanner');
+Route::post('/qrcode/process', [QrCodeController::class, 'process'])->name('qrcode.process');

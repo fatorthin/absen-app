@@ -79,7 +79,7 @@ class StudentResource extends Resource
                 ImageColumn::make('qr_code')
                     ->label('QR Code')
                     ->getStateUsing(function (Student $record) {
-                        $qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . $record->id;
+                        $qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . $record->uuid;
                         return $qrCodeUrl;
                     }),
             ])

@@ -11,6 +11,9 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
+use Filament\Support\Assets\Asset;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -24,6 +27,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->sidebarCollapsibleOnDesktop()
             ->id('admin')
             ->path('admin')
             ->login()
@@ -54,5 +58,16 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+    
+    public function register(): void
+    {
+        parent::register();
+        
+        // Register QR code assets
+        FilamentAsset::register([
+            Js::make('qrcode', asset('js/app/qrcode.js')),
+            Js::make('qrcode-scan', asset('js/app/qrcode-scan.js')),
+        ]);
     }
 }

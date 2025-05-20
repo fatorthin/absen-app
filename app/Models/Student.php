@@ -10,7 +10,7 @@ class Student extends Model
     use SoftDeletes;
     use HasFactory;
 
-    protected $fillable = ['name', 'no_wa', 'group_id', 'class', 'avatar', 'birthdate', 'gender', 'parent_name', 'parent_phone'];
+    protected $fillable = ['name', 'no_wa', 'group_id', 'class', 'avatar', 'birthdate', 'gender', 'parent_name', 'parent_phone', 'uuid'];
 
     public function group()
     {

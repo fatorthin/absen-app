@@ -1,6 +1,17 @@
 function onScanSuccess(decodedText, decodedResult) {
-    // handle the scanned code as you like, for example:
-    console.log(`Code matched = ${decodedText}`, decodedResult);
+    // Set the value in the form field
+    document.getElementById('qrcode').value = decodedText;
+    
+    // Log for debugging
+    console.log(`Code scanned = ${decodedText}`, decodedResult);
+    
+    // Optionally auto-submit the form after scanning
+    setTimeout(() => {
+        const submitButton = document.querySelector('button[type="submit"]');
+        if (submitButton) {
+            submitButton.click();
+        }
+    }, 500);
 }
 
 function onScanFailure(error) {
