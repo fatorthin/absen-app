@@ -20,6 +20,8 @@ class StudentFactory extends Factory
             'group_id' => Group::inRandomOrder()->first()->id ?? 1, // Fallback to ID 1 if no groups exist
             'class' => fake()->randomElement(['1 SMA', '2 SMA', '3 SMA', '1 SMP', '2 SMP', '3 SMP']),
             'avatar' => null,
+            'parent_name' => fake()->name(),
+            'parent_phone' => fake()->numerify('08##########'),
             'created_at' => now(),
             'updated_at' => now(),
         ];
