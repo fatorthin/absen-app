@@ -64,6 +64,7 @@
         
         <div class="text-center mt-4">
             <a href="javascript:window.close();" class="btn btn-secondary">Close Scanner</a>
+            <a href="{{ route('qrcode.logout') }}" class="btn btn-danger ms-2">Logout</a>
         </div>
     </div>
     

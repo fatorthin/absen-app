@@ -8,13 +8,40 @@ use App\Models\Report;
 use App\Models\Event;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class QrCodeController extends Controller
 {
+    // Scanner password - you should move this to .env in production
+    protected $scannerPassword = 'absenApp2023';
+    
     public function scanner(Request $request)
     {
-        // We no longer need an event_id parameter
-        return view('qr-scanner');
+        // Check if already authenticated for scanner
+        if ($request->session()->get('scanner_auth', false)) {
+            return view('qr-scanner');
+        }
+        
+        // If not authenticated, show the password form
+        return view('qr-scanner-password');
+    }
+    
+    public function verifyPassword(Request $request)
+    {
+        $password = $request->input('password');
+        
+        // Verify password
+        if ($password === $this->scannerPassword) {
+            // Set session flag for authentication
+            $request->session()->put('scanner_auth', true);
+            
+            // Redirect to scanner
+            return redirect()->route('qrcode.scanner');
+        }
+        
+        // Password incorrect
+        return redirect()->route('qrcode.scanner')
+            ->with('error', 'Incorrect password. Please try again.');
     }
     
     public function process(Request $request)
@@ -93,5 +120,14 @@ class QrCodeController extends Controller
                 'message' => 'Error processing QR code: ' . $e->getMessage()
             ]);
         }
+    }
+    
+    public function logout(Request $request)
+    {
+        // Remove scanner authentication
+        $request->session()->forget('scanner_auth');
+        
+        // Redirect back to scanner (which will show password form)
+        return redirect()->route('qrcode.scanner');
     }
 } 

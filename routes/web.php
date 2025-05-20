@@ -24,4 +24,6 @@ Route::post('/update_report', function (Request $request) {
 
 // Add QR code scanner routes
 Route::get('/qrcode/scanner', [QrCodeController::class, 'scanner'])->name('qrcode.scanner');
+Route::post('/qrcode/verify', [QrCodeController::class, 'verifyPassword'])->name('qrcode.verify');
+Route::get('/qrcode/logout', [QrCodeController::class, 'logout'])->name('qrcode.logout');
 Route::post('/qrcode/process', [QrCodeController::class, 'process'])->name('qrcode.process');
