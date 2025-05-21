@@ -23,6 +23,10 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Filament\Http\Responses\Auth\Contracts\LogoutResponse as LogoutResponseContract;
+use App\Filament\Widgets\StatsOverview;
+use App\Filament\Widgets\AttendanceChart;
+use App\Filament\Widgets\TodayAttendanceList;
+use App\Filament\Widgets\TodayStaffAttendanceList;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -51,6 +55,10 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 // Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
+                StatsOverview::class,
+                AttendanceChart::class,
+                TodayAttendanceList::class,
+                TodayStaffAttendanceList::class,
             ])
             ->middleware([
                 EncryptCookies::class,
