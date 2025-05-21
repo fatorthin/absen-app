@@ -45,6 +45,10 @@ class StudentResource extends Resource
                     '1 SMA' => '1 SMA',
                     '2 SMA' => '2 SMA',
                     '3 SMA' => '3 SMA',
+                    '1 SMP' => '1 SMP',
+                    '2 SMP' => '2 SMP',
+                    '3 SMP' => '3 SMP',
+                    'GP MT' => 'GP MT',
                 ]),
                 Select::make('gender')->options([
                     'L' => 'Laki-laki',

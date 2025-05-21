@@ -24,7 +24,7 @@ return new class extends Migration
                 table: 'groups',
                 indexName: 'students_group_id'
             );
-            $table->enum('class', ['1 SMA', '2 SMA', '3 SMA', '1 SMP', '2 SMP', '3 SMP']);
+            $table->enum('class', ['1 SMA', '2 SMA', '3 SMA', '1 SMP', '2 SMP', '3 SMP', 'GP MT']);
             $table->string('avatar')->nullable();
             $table->enum('status', ['aktif', 'nonaktif']);
             $table->string('parent_name');

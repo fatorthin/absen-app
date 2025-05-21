@@ -2,24 +2,27 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\AuthenticateSession;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
-use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Filament\Widgets;
-use Filament\Support\Assets\Asset;
+use Filament\PanelProvider;
 use Filament\Support\Assets\Js;
+use Filament\Navigation\MenuItem;
+use Filament\Support\Assets\Asset;
+use Filament\Support\Colors\Color;
+use App\Http\Responses\LogoutResponse;
+use Filament\Http\Middleware\Authenticate;
 use Filament\Support\Facades\FilamentAsset;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Filament\Http\Middleware\AuthenticateSession;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Filament\Http\Responses\Auth\Contracts\LogoutResponse as LogoutResponseContract;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -30,10 +33,15 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->id('admin')
             ->path('admin')
+            ->userMenuItems([
+                'logout' => MenuItem::make()->label('Log out'),
+            ])
             ->login()
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->authGuard('web')
+            ->authPasswordBroker('users')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -63,6 +71,9 @@ class AdminPanelProvider extends PanelProvider
     public function register(): void
     {
         parent::register();
+        
+        // Bind custom LogoutResponse
+        $this->app->bind(LogoutResponseContract::class, LogoutResponse::class);
         
         // Register QR code assets
         FilamentAsset::register([

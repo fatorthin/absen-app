@@ -20,7 +20,7 @@ class StudentFactory extends Factory
             'gender' => fake()->randomElement(['L', 'P']),
             'no_wa' => fake()->numerify('08##########'),
             'group_id' => Group::inRandomOrder()->first()->id ?? 1, // Fallback to ID 1 if no groups exist
-            'class' => fake()->randomElement(['1 SMA', '2 SMA', '3 SMA', '1 SMP', '2 SMP', '3 SMP']),
+            'class' => fake()->randomElement(['1 SMA', '2 SMA', '3 SMA', '1 SMP', '2 SMP', '3 SMP', 'GP MT']),
             'avatar' => '01JK7C4EH4WRE2DA74X19YJNEE.jpg',
             'parent_name' => fake()->name(),
             'parent_phone' => fake()->numerify('08##########'),

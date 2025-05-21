@@ -108,7 +108,8 @@ class EventStaffTable extends BaseWidget
             Log::info("[EventStaffTable] Built query for event ID: {$event->id}");
             
             return $table
-                ->query($staffQuery)
+            ->poll('10s')    
+            ->query($staffQuery)
                 ->columns([
                     TextColumn::make('name')
                         ->label('Name')

@@ -46,14 +46,22 @@
             margin-top: 10px;
             padding-left: 20px;
         }
+        .badge-student {
+            background-color: #007bff;
+            color: white;
+        }
+        .badge-staff {
+            background-color: #6610f2;
+            color: white;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="row mb-4">
             <div class="col-12 text-center">
-                <h1 class="mb-3">Student Attendance Scanner</h1>
-                <p class="text-muted">Scan a student QR code to mark them present for today's events</p>
+                <h1 class="mb-3">Attendance Scanner</h1>
+                <p class="text-muted">Scan a student or staff QR code to mark them present for today's events</p>
             </div>
         </div>
         
@@ -80,12 +88,19 @@
             const resultContainer = document.getElementById('scanResult');
             
             // Function to show scan result
-            function showResult(message, isSuccess, events = []) {
+            function showResult(message, isSuccess, data = {}) {
                 let resultHtml = '';
+                const events = data.events || [];
+                const personType = data.type || '';
+                const person = data.person || {};
                 
                 if (isSuccess && events && events.length > 0) {
+                    const typeBadge = personType === 'staff' 
+                        ? '<span class="badge badge-staff">Staff</span>' 
+                        : '<span class="badge badge-student">Student</span>';
+                    
                     resultHtml = `
-                        <h4>Success!</h4>
+                        <h4>Success! ${typeBadge}</h4>
                         <p>${message}</p>
                         <div class="events-list">
                             <strong>Events updated:</strong>
@@ -131,7 +146,11 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        showResult(data.message, true, data.events);
+                        showResult(data.message, true, {
+                            events: data.events,
+                            type: data.type,
+                            person: data.person
+                        });
                     } else {
                         showResult(data.message, false);
                     }

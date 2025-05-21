@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\StaffResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -46,10 +47,20 @@ class StaffResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
+                TextColumn::make('name')
+                ->sortable()
+                ->searchable(),
                 TextColumn::make('phone'),
-                TextColumn::make('group.name'),
+                TextColumn::make('group.name')
+                ->sortable()
+                ->searchable(),
                 TextColumn::make('role'),
+                ImageColumn::make('qr_code')
+                    ->label('QR Code')
+                    ->getStateUsing(function (Staff $record) {
+                        $qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . $record->uuid;
+                        return $qrCodeUrl;
+                    }),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
