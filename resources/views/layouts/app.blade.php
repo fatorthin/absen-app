@@ -46,10 +46,10 @@
                         <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('qrcode/scanner') ? 'active' : '' }}" href="{{ route('qrcode.scanner') }}">QR Scanner</a>
+                        <a class="nav-link {{ request()->is('qrcode/scanner') ? 'active' : '' }}" href="{{ route('qrcode.scanner') }}">Scan Kehadiran</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('attendance/report*') ? 'active' : '' }}" href="{{ route('attendance.report') }}">Rekap Kehadiran</a>
+                        <a class="nav-link {{ request()->is('attendance/report*') ? 'active' : '' }}" href="{{ route('attendance.report') }}">Rekap Kehadiran Siswa</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('staff/attendance/report*') ? 'active' : '' }}" href="{{ route('staff.attendance.report') }}">Rekap Kehadiran Staff</a>
